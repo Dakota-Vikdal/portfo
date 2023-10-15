@@ -14,22 +14,22 @@ def about(page_name):
 
 
 def csv_file(data):
-    with open('names.csv', 'w', newline='') as csvfile:
-        fieldnames = ['email', 'subject', 'message']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        writer.writeheader()
-        writer.writerow(f'{data}\n')
-    
+    with open('database.csv', mode='a', newline='\n') as database:
+        email = data['email']
+        subject = data['subject']
+        message = data['message']
+        csv_writer = csv.writer(database, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        csv_writer.writerow([email, subject, message])
     
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
     if request.method == 'POST':
-        data = request.form.to_dict()
-        print(data)
-        csv_file(data)
-        # with open('database.txt', 'a') as file:
-        #     file.write(f'{data}\n')
-        return redirect('/thankyou.html')
+        try:
+            data = request.form.to_dict()
+            print(data)
+            csv_file(data)
+            return redirect('/thankyou.html')
+        except:
+            return 'Data didn\'t save to database'
     else:
         return 'Something went wrong. The Autobots lost, the future is dismall. Only you can save us now.'
