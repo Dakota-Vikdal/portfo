@@ -20,6 +20,7 @@ def csv_file(data):
         message = data['message']
         csv_writer = csv.writer(database, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow([email, subject, message])
+        
     
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
@@ -32,4 +33,4 @@ def submit_form():
         except:
             return 'Data didn\'t save to database'
     else:
-        return 'Something went wrong. The Autobots lost, the future is dismall. Only you can save us now.'
+        return 'Something went wrong. The Autobots lost, the future is dismal. Only you can save us now.'
